@@ -13,11 +13,14 @@ type Post struct {
 
 func newPost(blogFile io.Reader) Post {
 	scanner := bufio.NewScanner(blogFile)
-	scanner.Scan()
-	title := strings.TrimPrefix(scanner.Text(), "Title: ")
 
-	scanner.Scan()
-	description := strings.TrimPrefix(scanner.Text(), "Description: ")
+	readLine := func(prefix string) string {
+		scanner.Scan()
+		return strings.TrimPrefix(scanner.Text(), prefix)
+	}
+
+	title := readLine("Title: ")
+	description := readLine("Description: ")
 
 	return Post{
 		Title:       title,
