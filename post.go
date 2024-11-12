@@ -9,6 +9,7 @@ import (
 type Post struct {
 	Title       string
 	Description string
+	Tags        []string
 }
 
 func newPost(blogFile io.Reader) Post {
@@ -21,9 +22,11 @@ func newPost(blogFile io.Reader) Post {
 
 	title := readLine("Title: ")
 	description := readLine("Description: ")
+	tags := strings.Split(readLine("Tags: "), ", ")
 
 	return Post{
 		Title:       title,
 		Description: description,
+		Tags:        tags,
 	}
 }

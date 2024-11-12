@@ -3,6 +3,7 @@ package blogposts_test
 import (
 	"errors"
 	"io/fs"
+	"reflect"
 	"testing"
 	"testing/fstest"
 
@@ -14,7 +15,8 @@ func TestPostsFromFS(t *testing.T) {
 		// Given
 		fileSystem := fstest.MapFS{
 			"hello-tdd.md": {Data: []byte(`Title: Hello, TDD world!
-Description: lol`)},
+Description: lol
+Tags: tdd, go`)},
 			// "hello-world.md": {Data: []byte("Title: Hello, World!")},
 		}
 
@@ -33,6 +35,7 @@ Description: lol`)},
 		assertPost(t, posts[0], blogposts.Post{
 			Title:       "Hello, TDD world!",
 			Description: "lol",
+			Tags:        []string{"tdd", "go"},
 		})
 	})
 
@@ -46,7 +49,7 @@ Description: lol`)},
 
 func assertPost(t testing.TB, got, want blogposts.Post) {
 	t.Helper()
-	if got != want {
+	if !reflect.DeepEqual(got, want) {
 		t.Errorf("got %#v, want %#v", got, want)
 	}
 }
