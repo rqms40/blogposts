@@ -13,13 +13,21 @@ func PostsFromFS(fileSystem fs.FS) ([]Post, error) {
 
 	var posts []Post
 	for _, f := range dir {
-
-		posts = append(posts, makePostFromFile(fileSystem, f.Name()))
+		post, err := makePostFromFile(fileSystem, f.Name())
+		if err != nil {
+			return nil, err // todo: more clarification
+		}
+		posts = append(posts, post)
 	}
 	return posts, nil
 }
 
-func makePostFromFile(fileSystem fs.FS, fileName string) Post {
-	blogFile, _ := fileSystem.Open(fileName)
+func makePostFromFile(fileSystem fs.FS, fileName string) (Post, error) {
+	blogFile, err := fileSystem.Open(fileName)
+	if err != nil {
+		return Post{}, err
+	}
+	defer blogFile.Close()
+
 	return newPost(blogFile)
 }

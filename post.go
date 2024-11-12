@@ -21,7 +21,7 @@ const (
 	tagsPrefix        = "Tags: "
 )
 
-func newPost(blogFile io.Reader) Post {
+func newPost(blogFile io.Reader) (Post, error) {
 	scanner := bufio.NewScanner(blogFile)
 
 	readLine := func(prefix string) string {
@@ -40,7 +40,7 @@ func newPost(blogFile io.Reader) Post {
 		Description: description,
 		Tags:        tags,
 		Body:        body,
-	}
+	}, nil
 }
 
 func readBody(scanner *bufio.Scanner) string {
