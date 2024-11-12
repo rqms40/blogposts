@@ -16,7 +16,10 @@ func TestPostsFromFS(t *testing.T) {
 		fileSystem := fstest.MapFS{
 			"hello-tdd.md": {Data: []byte(`Title: Hello, TDD world!
 Description: lol
-Tags: tdd, go`)},
+Tags: tdd, go
+---
+Hello
+World`)},
 			// "hello-world.md": {Data: []byte("Title: Hello, World!")},
 		}
 
@@ -36,6 +39,8 @@ Tags: tdd, go`)},
 			Title:       "Hello, TDD world!",
 			Description: "lol",
 			Tags:        []string{"tdd", "go"},
+			Body: `Hello
+World`,
 		})
 	})
 
