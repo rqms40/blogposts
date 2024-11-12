@@ -21,4 +21,9 @@ func TestBlogPosts(t *testing.T) {
 	if len(posts) != len(fs) {
 		t.Errorf("expected %d posts, got %d", len(fs), len(posts))
 	}
+
+	expectedFirstPost := blogposts.Post{Title: "Hello, TDD world!"}
+	if posts[0] != expectedFirstPost {
+		t.Errorf("got %#v, want %#v", posts[0], expectedFirstPost)
+	}
 }
